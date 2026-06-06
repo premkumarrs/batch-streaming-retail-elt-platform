@@ -23,41 +23,6 @@ The platform is intended for local development, experimentation, and portfolio d
 
 ---
 
-# Architecture
-
-```mermaid
-flowchart TB
-
-    subgraph batch["Batch Pipeline"]
-        CSV["Raw CSV Files"]
-        ING["csv_ingester.py"]
-        PARQ["Parquet Conversion"]
-        SPARK["Spark Cleaning"]
-        CLEAN["Cleaned CSV"]
-        LOAD["PostgreSQL Loader"]
-        DBT["dbt Models"]
-
-        CSV --> ING --> PARQ --> SPARK --> CLEAN --> LOAD --> DBT
-    end
-
-    subgraph streaming["Streaming Pipeline"]
-        PROD["Kafka Producer"]
-        KAFKA["Kafka Topic"]
-        CONS["Spark Streaming Consumer"]
-        STREAM["streaming_orders"]
-
-        PROD --> KAFKA --> CONS --> STREAM
-    end
-
-    PG[(PostgreSQL)]
-
-    LOAD --> PG
-    STREAM --> PG
-    DBT --> PG
-```
-
----
-
 # Tech Stack
 
 | Layer            | Technology                                    |
@@ -415,60 +380,6 @@ python kafka/producer/orders_producer.py
 ```bash
 docker compose exec airflow bash -c "cd /opt/airflow/project/dbt/retail_transformations && dbt run --profiles-dir /opt/airflow/project/dbt && dbt test --profiles-dir /opt/airflow/project/dbt"
 ```
-
----
-
-# Screenshots
-
-## Airflow DAG
-
-![Airflow DAG](screenshots/airflow-dag.png)
-
----
-
-## Successful DAG Run
-
-![DAG Run](screenshots/dag-success.png)
-
----
-
-## Kafka Producer
-
-![Kafka Producer](screenshots/kafka-producer.png)
-
----
-
-## Metabase Dashboard
-
-![Metabase Dashboard](screenshots/metabase-dashboard.png)
-
----
-
-# Known Limitations
-
-* Local development environment only
-* Default credentials are hardcoded for simplicity
-* Single Kafka broker deployment
-* Airflow uses SequentialExecutor
-* Airflow metadata stored in SQLite
-* Streaming producer and consumer run manually
-* Metabase requires manual PostgreSQL setup
-* Batch reload fully truncates source tables
-
----
-
-# Future Improvements
-
-* Persist Airflow metadata in PostgreSQL
-* Add GitHub Actions CI pipeline
-* Add Docker Compose streaming profile
-* Automate Metabase PostgreSQL connection
-* Replace CSV round-trip with full Parquet workflow
-* Add additional dbt marts and warehouse models
-* Add automated monitoring and alerting
-
----
-
 # License
 
 MIT License
