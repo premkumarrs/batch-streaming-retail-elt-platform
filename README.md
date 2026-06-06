@@ -360,6 +360,13 @@ python kafka/producer/orders_producer.py
 docker compose exec airflow bash -c "cd /opt/airflow/project/dbt/retail_transformations && dbt run --profiles-dir /opt/airflow/project/dbt && dbt test --profiles-dir /opt/airflow/project/dbt"
 ```
 
+# Key Learning Outcomes
+
+Through this project, I gained hands-on experience in designing and implementing end-to-end batch and streaming data engineering workflows using modern data stack technologies. I learned how to orchestrate ELT pipelines with Apache Airflow, perform distributed batch processing and data cleaning with PySpark, stream real-time events through Apache Kafka, and consume streaming data using Spark Structured Streaming. I also developed practical experience in loading and managing warehouse tables in PostgreSQL, building transformation and testing workflows using dbt, and containerizing multi-service infrastructure using Docker Compose. In addition, the project improved my understanding of workflow scheduling, incremental data modeling, structured streaming architectures, Docker networking, data quality validation, schema consistency, and building re-runnable data pipelines suitable for analytics engineering workflows.
+
+
+
 # License
 
 MIT License
+
