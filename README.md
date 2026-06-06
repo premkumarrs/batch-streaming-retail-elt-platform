@@ -1,8 +1,6 @@
 # Batch + Streaming Retail ELT Platform
 
-A Docker-based data engineering platform built around the Olist Brazilian E-commerce dataset. The project demonstrates end-to-end batch ELT orchestration using Airflow, Spark, PostgreSQL, and dbt, alongside a Kafka-based streaming ingestion pipeline into the same warehouse.
-
-The repository focuses on practical data engineering workflows including orchestration, distributed processing, streaming ingestion, warehouse loading, incremental transformations, and containerized infrastructure management.
+Batch + Streaming Retail ELT Platform is a Dockerized data engineering project built around the Olist Brazilian E-commerce dataset to simulate a modern analytics and data processing environment. The platform combines both batch and real-time data pipelines within a single architecture using Apache Airflow, PySpark, Kafka, PostgreSQL, dbt, and Docker Compose. In the batch pipeline, raw CSV datasets are ingested, converted into Parquet format, cleaned and transformed using Spark, loaded into PostgreSQL, and further modeled and tested using dbt. In parallel, the streaming pipeline simulates real-time order events through Kafka, consumes them using Spark Structured Streaming, and incrementally loads streaming data into PostgreSQL for downstream transformations. The project demonstrates practical concepts such as workflow orchestration, distributed data processing, streaming ingestion, incremental warehouse modeling, automated data quality validation, and containerized infrastructure management. It is designed as a portfolio-oriented local ELT platform for demonstrating end-to-end data engineering workflows rather than production deployment.
 
 ---
 
@@ -87,7 +85,7 @@ batch-streaming-retail-elt-platform/
 │   └── streaming/
 │       └── kafka_consumer.py            # Spark Structured Streaming consumer
 │
-├── screenshots/                         # README screenshots and architecture visuals
+├── screenshots/                         
 │
 ├── docker-compose.yml                   # Infrastructure orchestration
 ├── requirements.txt                     # Local Python dependencies
