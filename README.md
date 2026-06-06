@@ -17,42 +17,7 @@ Batch + Streaming Retail ELT Platform is a Dockerized data engineering project b
 | Visualization        | Metabase                       | Provides optional dashboarding and BI visualization capabilities                                    |
 | Infrastructure       | Docker Compose                 | Runs the complete multi-service infrastructure locally in isolated containers                       |
 
-
-````markdown
-# Architecture Diagram
-
-```mermaid
-flowchart LR
-
-    %% Batch Pipeline
-    A[Raw Olist CSV Data]
-        --> B[Pandas Ingestion<br/>CSV → Parquet]
-        --> C[PySpark Cleaning & Deduplication]
-        --> D[(PostgreSQL Warehouse)]
-        --> E[dbt Models & Tests]
-
-    %% Streaming Pipeline
-    F[Kafka Producer]
-        --> G[(Kafka Topic: retail_orders)]
-        --> H[Spark Structured Streaming]
-        --> I[(streaming_orders)]
-
-    I --> D
-
-    %% Orchestration
-    J[Apache Airflow]
-    J -. Orchestrates Batch Pipeline .-> A
-
-    %% Infrastructure
-    subgraph Infrastructure
-        K[Docker Compose]
-        L[Kafka]
-        M[Zookeeper]
-        N[Metabase]
-    end
-```
 ````
-
 
 # Repository Structure
 
