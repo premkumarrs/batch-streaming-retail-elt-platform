@@ -18,52 +18,40 @@ Batch + Streaming Retail ELT Platform is a Dockerized data engineering project b
 | Infrastructure       | Docker Compose                 | Runs the complete multi-service infrastructure locally in isolated containers                       |
 
 
+````markdown
 # Architecture Diagram
 
 ```mermaid
 flowchart LR
 
-    subgraph Batch_ELT_Pipeline
+    %% Batch Pipeline
+    A[Raw Olist CSV Data]
+        --> B[Pandas Ingestion<br/>CSV → Parquet]
+        --> C[PySpark Cleaning & Deduplication]
+        --> D[(PostgreSQL Warehouse)]
+        --> E[dbt Models & Tests]
 
-        A["Raw CSV Data<br/>Olist Dataset"]
-        B["Pandas Ingestion<br/>CSV → Parquet"]
-        C["PySpark Cleaning<br/>Deduplication + Filtering"]
-        D["PostgreSQL Warehouse"]
-        E["dbt Models + Tests"]
-
-        A --> B --> C --> D --> E
-
-    end
-
-
-    subgraph Streaming_Pipeline
-
-        F["Kafka Producer"]
-        G["Kafka Topic<br/>retail_orders"]
-        H["Spark Structured Streaming"]
-        I["streaming_orders Table"]
-
-        F --> G --> H --> I
-
-    end
-
-
-    subgraph Infrastructure
-
-        J["Airflow"]
-        K["Kafka"]
-        L["Zookeeper"]
-        M["PostgreSQL"]
-        N["Metabase"]
-        O["Docker Compose"]
-
-    end
-
+    %% Streaming Pipeline
+    F[Kafka Producer]
+        --> G[(Kafka Topic: retail_orders)]
+        --> H[Spark Structured Streaming]
+        --> I[(streaming_orders)]
 
     I --> D
-    J --> Batch_ELT_Pipeline
-    O --> Infrastructure
+
+    %% Orchestration
+    J[Apache Airflow]
+    J -. Orchestrates Batch Pipeline .-> A
+
+    %% Infrastructure
+    subgraph Infrastructure
+        K[Docker Compose]
+        L[Kafka]
+        M[Zookeeper]
+        N[Metabase]
+    end
 ```
+````
 
 
 # Repository Structure
