@@ -2,22 +2,18 @@
 
 Batch + Streaming Retail ELT Platform is a Dockerized data engineering project built around the Olist Brazilian E-commerce dataset to simulate a modern analytics and data processing environment. The platform combines both batch and real-time data pipelines within a single architecture using Apache Airflow, PySpark, Kafka, PostgreSQL, dbt, and Docker Compose. In the batch pipeline, raw CSV datasets are ingested, converted into Parquet format, cleaned and transformed using Spark, loaded into PostgreSQL, and further modeled and tested using dbt. In parallel, the streaming pipeline simulates real-time order events through Kafka, consumes them using Spark Structured Streaming, and incrementally loads streaming data into PostgreSQL for downstream transformations. The project demonstrates practical concepts such as workflow orchestration, distributed data processing, streaming ingestion, incremental warehouse modeling, automated data quality validation, and containerized infrastructure management. It is designed as a portfolio-oriented local ELT platform for demonstrating end-to-end data engineering workflows rather than production deployment.
 
----
-
-# Project Status
-
-This project is designed as a portfolio-oriented local ELT/data engineering platform demonstrating:
-
-* Batch orchestration with Apache Airflow
-* Distributed batch processing with PySpark
-* Kafka-based event streaming
-* PostgreSQL warehouse loading
-* dbt transformations and testing
-* Dockerized infrastructure orchestration
-* Re-runnable ETL pipelines
-* Structured streaming with Spark
-
-The platform is intended for local development, experimentation, and portfolio demonstration rather than production deployment.
+| Technology                 | Purpose in the Project                                                 |
+| -------------------------- | ---------------------------------------------------------------------- |
+| Apache Airflow             | Orchestrates the batch ELT workflow using a scheduled DAG              |
+| PySpark                    | Performs distributed batch cleaning, transformation, and deduplication |
+| Apache Kafka               | Streams synthetic order events in real time                            |
+| Spark Structured Streaming | Consumes Kafka events and loads them into PostgreSQL                   |
+| PostgreSQL                 | Central warehouse storing both batch and streaming datasets            |
+| dbt                        | Builds transformation models and runs data quality tests               |
+| Docker Compose             | Runs the entire infrastructure locally in isolated containers          |
+| pandas                     | Handles CSV ingestion and Parquet conversion                           |
+| Metabase                   | Provides optional dashboarding and BI visualization                    |
+| SQLAlchemy                 | Loads transformed datasets into PostgreSQL                             |
 
 ---
 
