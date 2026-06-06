@@ -5,19 +5,12 @@
 
 SELECT
     order_id,
-    product,
-    category,
-    price,
-    quantity,
-    order_date
+    customer_id,
+    order_status
 FROM streaming_orders
 
 {% if is_incremental() %}
 
-WHERE order_date >
-(
-    SELECT MAX(order_date)
-    FROM {{ this }}
-)
+WHERE order_id NOT IN (SELECT order_id FROM {{ this }})
 
 {% endif %}

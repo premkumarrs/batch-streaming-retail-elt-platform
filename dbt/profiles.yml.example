@@ -1,0 +1,15 @@
+retail_transformations:
+  target: dev
+
+  outputs:
+    dev:
+      type: postgres
+      # Use host "postgres" inside Docker (Airflow container).
+      # Use host "localhost" and port 5433 when running dbt from your machine.
+      host: postgres
+      user: admin
+      password: change_me
+      port: 5432
+      dbname: retail_db
+      schema: public
+      threads: 1

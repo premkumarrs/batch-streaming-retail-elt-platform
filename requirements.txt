@@ -4,8 +4,7 @@ pyarrow
 openpyxl
 sqlalchemy
 psycopg2-binary
-boto3
-minio
+kafka-python
 faker
 pytest
 black

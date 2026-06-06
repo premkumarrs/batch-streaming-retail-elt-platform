@@ -5,7 +5,7 @@ venv_linux/
 
 # Python
 
-**pycache**/
+__pycache__/
 *.pyc
 
 # Environment variables
@@ -20,8 +20,15 @@ airflow/logs/
 
 dbt/logs/
 dbt/target/
+dbt/**/logs/
+dbt/**/target/
 dbt/.user.yml
 dbt/profiles.yml
+
+# Generated data artifacts
+
+data/processed/
+data/checkpoints/
 
 # Spark artifacts
 

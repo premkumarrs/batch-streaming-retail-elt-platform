@@ -6,8 +6,8 @@ sources:
     schema: public
 
     tables:
-      - name: fact_orders
-      - name: dim_customers
+      - name: orders
+      - name: customers
 
 models:
   - name: stg_orders

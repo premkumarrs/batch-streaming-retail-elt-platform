@@ -19,6 +19,16 @@ with DAG(
     }
 ) as dag:
 
+    csv_ingestion = BashOperator(
+        task_id="csv_ingestion",
+
+        bash_command="""
+        cd /opt/airflow/project
+
+        python3 ingestion/csv_ingester.py
+        """
+    )
+
     spark_cleaning = BashOperator(
         task_id="spark_cleaning",
 
@@ -51,4 +61,14 @@ with DAG(
         """
     )
 
-    spark_cleaning >> load_postgres >> run_dbt
+    dbt_test = BashOperator(
+        task_id="dbt_test",
+
+        bash_command="""
+        cd /opt/airflow/project/dbt/retail_transformations
+
+        dbt test --profiles-dir /opt/airflow/project/dbt
+        """
+    )
+
+    csv_ingestion >> spark_cleaning >> load_postgres >> run_dbt >> dbt_test
