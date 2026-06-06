@@ -72,9 +72,7 @@ batch-streaming-retail-elt-platform/
 ├── .env.example                         # Environment variable template
 ├── .gitignore
 └── README.md
-```
-
----
+````
 
 # Batch + Streaming Retail ELT Platform
 
@@ -83,8 +81,7 @@ An end-to-end modern data engineering platform built using Apache Airflow, PySpa
 The project demonstrates both batch and real-time streaming ELT workflows using the Brazilian Olist e-commerce dataset.
 
 ---
-
-# Dataset
+Dataset
 
 The required Olist dataset CSV files are already included under:
 
