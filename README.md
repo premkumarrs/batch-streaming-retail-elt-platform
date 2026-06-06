@@ -2,35 +2,21 @@
 
 Batch + Streaming Retail ELT Platform is a Dockerized data engineering project built around the Olist Brazilian E-commerce dataset to simulate a modern analytics and data processing environment. The platform combines both batch and real-time data pipelines within a single architecture using Apache Airflow, PySpark, Kafka, PostgreSQL, dbt, and Docker Compose. In the batch pipeline, raw CSV datasets are ingested, converted into Parquet format, cleaned and transformed using Spark, loaded into PostgreSQL, and further modeled and tested using dbt. In parallel, the streaming pipeline simulates real-time order events through Kafka, consumes them using Spark Structured Streaming, and incrementally loads streaming data into PostgreSQL for downstream transformations. The project demonstrates practical concepts such as workflow orchestration, distributed data processing, streaming ingestion, incremental warehouse modeling, automated data quality validation, and containerized infrastructure management. It is designed as a portfolio-oriented local ELT platform for demonstrating end-to-end data engineering workflows rather than production deployment.
 
-| Technology                 | Purpose in the Project                                                 |
-| -------------------------- | ---------------------------------------------------------------------- |
-| Apache Airflow             | Orchestrates the batch ELT workflow using a scheduled DAG              |
-| PySpark                    | Performs distributed batch cleaning, transformation, and deduplication |
-| Apache Kafka               | Streams synthetic order events in real time                            |
-| Spark Structured Streaming | Consumes Kafka events and loads them into PostgreSQL                   |
-| PostgreSQL                 | Central warehouse storing both batch and streaming datasets            |
-| dbt                        | Builds transformation models and runs data quality tests               |
-| Docker Compose             | Runs the entire infrastructure locally in isolated containers          |
-| pandas                     | Handles CSV ingestion and Parquet conversion                           |
-| Metabase                   | Provides optional dashboarding and BI visualization                    |
-| SQLAlchemy                 | Loads transformed datasets into PostgreSQL                             |
+# Tech Stack and Responsibilities
 
----
+| Layer                | Technology                     | Purpose in the Project                                                                              |
+| -------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------- |
+| Orchestration        | Apache Airflow 2.9.3           | Orchestrates and schedules the batch ELT workflow using a multi-stage DAG pipeline                  |
+| Batch Processing     | PySpark 3.5.1                  | Performs distributed batch cleaning, transformation, filtering, and deduplication on Olist datasets |
+| Streaming            | Apache Kafka 7.5               | Streams synthetic real-time retail order events through Kafka topics                                |
+| Streaming Processing | Spark Structured Streaming     | Consumes Kafka events and incrementally loads streaming data into PostgreSQL                        |
+| Data Warehouse       | PostgreSQL 15                  | Central warehouse storing both batch and streaming datasets                                         |
+| Transformations      | dbt-core 1.7.19 + dbt-postgres | Builds transformation models, staging views, incremental models, and data quality tests             |
+| Data Ingestion       | pandas                         | Handles CSV ingestion and conversion into Parquet format                                            |
+| Database Loading     | SQLAlchemy                     | Loads transformed Spark outputs into PostgreSQL tables                                              |
+| Visualization        | Metabase                       | Provides optional dashboarding and BI visualization capabilities                                    |
+| Infrastructure       | Docker Compose                 | Runs the complete multi-service infrastructure locally in isolated containers                       |
 
-# Tech Stack
-
-| Layer            | Technology                                    |
-| ---------------- | --------------------------------------------- |
-| Orchestration    | Apache Airflow 2.9.3                          |
-| Batch Processing | PySpark 3.5.1                                 |
-| Streaming        | Apache Kafka 7.5 + Spark Structured Streaming |
-| Data Warehouse   | PostgreSQL 15                                 |
-| Transformations  | dbt-core 1.7.19 + dbt-postgres                |
-| Data Ingestion   | pandas                                        |
-| Visualization    | Metabase                                      |
-| Infrastructure   | Docker Compose                                |
-
----
 
 # Repository Structure
 
