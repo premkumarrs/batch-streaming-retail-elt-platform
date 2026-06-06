@@ -19,9 +19,6 @@ Batch + Streaming Retail ELT Platform is a Dockerized data engineering project b
 
 # Repository Structure
 ````
-
-
-```text
 batch-streaming-retail-elt-platform/
 │
 ├── airflow/
