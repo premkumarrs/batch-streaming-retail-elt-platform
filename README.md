@@ -76,11 +76,19 @@ batch-streaming-retail-elt-platform/
 
 ---
 
+# Batch + Streaming Retail ELT Platform
+
+An end-to-end modern data engineering platform built using Apache Airflow, PySpark, Kafka, PostgreSQL, dbt, and Docker Compose.
+
+The project demonstrates both batch and real-time streaming ELT workflows using the Brazilian Olist e-commerce dataset.
+
+---
+
 # Dataset
 
 The required Olist dataset CSV files are already included under:
 
-
+```text
 data/raw/
 ```
 
@@ -88,7 +96,9 @@ This allows the platform to run locally without additional download steps.
 
 Original dataset source:
 
+```text
 https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+```
 
 ---
 
@@ -130,13 +140,13 @@ dbt_test
 
 ### 1. csv_ingestion
 
-Script:
+**Script**
 
 ```text
 ingestion/csv_ingester.py
 ```
 
-Responsibilities:
+**Responsibilities**
 
 * Reads raw Olist CSV datasets
 * Converts datasets into Parquet format
@@ -146,13 +156,13 @@ Responsibilities:
 
 ### 2. spark_cleaning
 
-Script:
+**Script**
 
 ```text
 spark/jobs/data_cleaning.py
 ```
 
-Responsibilities:
+**Responsibilities**
 
 * Reads Parquet datasets using Spark
 * Deduplicates records
@@ -163,13 +173,13 @@ Responsibilities:
 
 ### 3. load_postgres
 
-Script:
+**Script**
 
 ```text
 postgres_loader/load_cleaned_data.py
 ```
 
-Responsibilities:
+**Responsibilities**
 
 * Loads cleaned Spark outputs into PostgreSQL
 * Uses TRUNCATE + INSERT strategy
@@ -180,29 +190,29 @@ Responsibilities:
 
 ### 4. run_dbt
 
-Command:
+**Command**
 
 ```bash
 dbt run
 ```
 
-Responsibilities:
+**Responsibilities**
 
 * Builds staging views
-* Builds incremental streaming model
+* Builds incremental streaming models
 * Materializes transformed warehouse objects
 
 ---
 
 ### 5. dbt_test
 
-Command:
+**Command**
 
 ```bash
 dbt test
 ```
 
-Responsibilities:
+**Responsibilities**
 
 * Executes dbt data quality tests
 * Validates uniqueness and null constraints
@@ -213,7 +223,7 @@ Responsibilities:
 
 The streaming pipeline demonstrates real-time event ingestion into PostgreSQL.
 
-## Flow
+## Streaming Flow
 
 1. Kafka producer publishes order events
 2. Kafka topic stores events
@@ -359,13 +369,40 @@ python kafka/producer/orders_producer.py
 docker compose exec airflow bash -c "cd /opt/airflow/project/dbt/retail_transformations && dbt run --profiles-dir /opt/airflow/project/dbt && dbt test --profiles-dir /opt/airflow/project/dbt"
 ```
 
+---
+
 # Key Learning Outcomes
 
-Through this project, I gained hands-on experience in designing and implementing end-to-end batch and streaming data engineering workflows using modern data stack technologies. I learned how to orchestrate ELT pipelines with Apache Airflow, perform distributed batch processing and data cleaning with PySpark, stream real-time events through Apache Kafka, and consume streaming data using Spark Structured Streaming. I also developed practical experience in loading and managing warehouse tables in PostgreSQL, building transformation and testing workflows using dbt, and containerizing multi-service infrastructure using Docker Compose. In addition, the project improved my understanding of workflow scheduling, incremental data modeling, structured streaming architectures, Docker networking, data quality validation, schema consistency, and building re-runnable data pipelines suitable for analytics engineering workflows.
+Through this project, I gained hands-on experience in designing and implementing end-to-end batch and streaming data engineering workflows using modern data stack technologies.
 
+Key areas of practical experience include:
 
+* Orchestrating ELT pipelines using Apache Airflow
+* Performing distributed data processing with PySpark
+* Building real-time streaming pipelines with Apache Kafka
+* Consuming streaming data using Spark Structured Streaming
+* Loading and managing warehouse tables in PostgreSQL
+* Building transformation and testing workflows using dbt
+* Containerizing multi-service infrastructure using Docker Compose
+* Designing re-runnable and production-style batch pipelines
+* Implementing data quality validation and schema consistency checks
+* Understanding incremental modeling and analytics engineering workflows
+
+---
+
+# Tech Stack
+
+* Apache Airflow
+* Apache Spark
+* PySpark
+* Apache Kafka
+* PostgreSQL
+* dbt
+* Docker Compose
+* Python
+
+---
 
 # License
 
 MIT License
-
