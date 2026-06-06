@@ -1,0 +1,110 @@
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: retail_postgres
+    restart: always
+
+    env_file:
+      - .env
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: retail_zookeeper
+    restart: always
+
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+    ports:
+      - "2181:2181"
+
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: retail_kafka
+    restart: always
+
+    depends_on:
+      - zookeeper
+
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+
+    environment:
+      KAFKA_BROKER_ID: 1
+
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://retail_kafka:9092,PLAINTEXT_HOST://localhost:29092
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+
+  metabase:
+    image: metabase/metabase
+    container_name: retail_metabase
+    restart: always
+
+    ports:
+      - "3000:3000"
+
+
+  airflow:
+    build:
+      context: .
+      dockerfile: docker/airflow/Dockerfile
+
+    container_name: retail_airflow
+    restart: always
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./:/opt/airflow/project
+
+    command: >
+      bash -c "
+      airflow db migrate &&
+      airflow users create
+      --username admin
+      --password admin
+      --firstname Prem
+      --lastname User
+      --role Admin
+      --email admin@example.com || true &&
+      airflow scheduler & airflow webserver
+      "
+
+    depends_on:
+      - postgres
+      - kafka
+
+
+volumes:
+  postgres_data:

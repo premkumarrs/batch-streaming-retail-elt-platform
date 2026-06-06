@@ -1,0 +1,42 @@
+# Virtual environments
+
+venv/
+venv_linux/
+
+# Python
+
+**pycache**/
+*.pyc
+
+# Environment variables
+
+.env
+
+# Airflow logs
+
+airflow/logs/
+
+# dbt artifacts
+
+dbt/logs/
+dbt/target/
+dbt/.user.yml
+dbt/profiles.yml
+
+# Spark artifacts
+
+*.crc
+_SUCCESS
+
+# Screenshots
+
+screenshots/
+
+# IDE
+
+.vscode/
+.idea/
+
+# OS
+
+.DS_Store

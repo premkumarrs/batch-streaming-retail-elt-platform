@@ -1,0 +1,12 @@
+pandas
+numpy
+pyarrow
+openpyxl
+sqlalchemy
+psycopg2-binary
+boto3
+minio
+faker
+pytest
+black
+flake8
