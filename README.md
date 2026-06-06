@@ -17,9 +17,9 @@ Batch + Streaming Retail ELT Platform is a Dockerized data engineering project b
 | Visualization        | Metabase                       | Provides optional dashboarding and BI visualization capabilities                                    |
 | Infrastructure       | Docker Compose                 | Runs the complete multi-service infrastructure locally in isolated containers                       |
 
+# Repository Structure
 ````
 
-# Repository Structure
 
 ```text
 batch-streaming-retail-elt-platform/
