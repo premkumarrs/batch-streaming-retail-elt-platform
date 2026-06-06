@@ -17,6 +17,74 @@ Batch + Streaming Retail ELT Platform is a Dockerized data engineering project b
 | Visualization        | Metabase                       | Provides optional dashboarding and BI visualization capabilities                                    |
 | Infrastructure       | Docker Compose                 | Runs the complete multi-service infrastructure locally in isolated containers                       |
 
+
+# Architecture Diagram
+
+```mermaid
+flowchart TB
+
+    subgraph Batch_Pipeline["Batch ELT Pipeline (Airflow Scheduled)"]
+
+        RAW["Raw Olist CSV Files<br/>data/raw/*.csv"]
+
+        INGEST["csv_ingester.py<br/>CSV → Parquet"]
+
+        PARQUET["Processed Parquet Files<br/>data/processed/*.parquet"]
+
+        SPARK["PySpark Cleaning Job<br/>Deduplication + Null Filtering"]
+
+        CLEAN["Cleaned CSV Outputs"]
+
+        LOAD["load_cleaned_data.py<br/>PostgreSQL Loader"]
+
+        POSTGRES1[("PostgreSQL Warehouse")]
+
+        DBT["dbt Models + Tests"]
+
+        RAW --> INGEST
+        INGEST --> PARQUET
+        PARQUET --> SPARK
+        SPARK --> CLEAN
+        CLEAN --> LOAD
+        LOAD --> POSTGRES1
+        POSTGRES1 --> DBT
+
+    end
+
+
+    subgraph Streaming_Pipeline["Streaming Pipeline (Kafka + Spark Structured Streaming)"]
+
+        PRODUCER["orders_producer.py<br/>Synthetic Order Events"]
+
+        KAFKA["Kafka Topic<br/>retail_orders"]
+
+        CONSUMER["kafka_consumer.py<br/>Spark Structured Streaming"]
+
+        STREAM_TABLE[("streaming_orders")]
+
+        PRODUCER --> KAFKA
+        KAFKA --> CONSUMER
+        CONSUMER --> STREAM_TABLE
+
+    end
+
+
+    subgraph Infrastructure["Dockerized Infrastructure"]
+
+        AIRFLOW["Airflow"]
+        POSTGRES2["PostgreSQL"]
+        ZOOKEEPER["Zookeeper"]
+        KAFKA2["Kafka"]
+        METABASE["Metabase"]
+
+    end
+
+
+    DBT --> POSTGRES2
+    STREAM_TABLE --> POSTGRES2
+```
+
+
 # Repository Structure
 
 ```text
