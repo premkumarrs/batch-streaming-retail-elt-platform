@@ -80,7 +80,7 @@ batch-streaming-retail-elt-platform/
 
 The required Olist dataset CSV files are already included under:
 
-```text
+
 data/raw/
 ```
 
