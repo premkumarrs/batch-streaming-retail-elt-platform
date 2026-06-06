@@ -21,67 +21,48 @@ Batch + Streaming Retail ELT Platform is a Dockerized data engineering project b
 # Architecture Diagram
 
 ```mermaid
-flowchart TB
+flowchart LR
 
-    subgraph Batch_Pipeline["Batch ELT Pipeline (Airflow Scheduled)"]
+    subgraph Batch_ELT_Pipeline
 
-        RAW["Raw Olist CSV Files<br/>data/raw/*.csv"]
+        A["Raw CSV Data<br/>Olist Dataset"]
+        B["Pandas Ingestion<br/>CSV → Parquet"]
+        C["PySpark Cleaning<br/>Deduplication + Filtering"]
+        D["PostgreSQL Warehouse"]
+        E["dbt Models + Tests"]
 
-        INGEST["csv_ingester.py<br/>CSV → Parquet"]
-
-        PARQUET["Processed Parquet Files<br/>data/processed/*.parquet"]
-
-        SPARK["PySpark Cleaning Job<br/>Deduplication + Null Filtering"]
-
-        CLEAN["Cleaned CSV Outputs"]
-
-        LOAD["load_cleaned_data.py<br/>PostgreSQL Loader"]
-
-        POSTGRES1[("PostgreSQL Warehouse")]
-
-        DBT["dbt Models + Tests"]
-
-        RAW --> INGEST
-        INGEST --> PARQUET
-        PARQUET --> SPARK
-        SPARK --> CLEAN
-        CLEAN --> LOAD
-        LOAD --> POSTGRES1
-        POSTGRES1 --> DBT
+        A --> B --> C --> D --> E
 
     end
 
 
-    subgraph Streaming_Pipeline["Streaming Pipeline (Kafka + Spark Structured Streaming)"]
+    subgraph Streaming_Pipeline
 
-        PRODUCER["orders_producer.py<br/>Synthetic Order Events"]
+        F["Kafka Producer"]
+        G["Kafka Topic<br/>retail_orders"]
+        H["Spark Structured Streaming"]
+        I["streaming_orders Table"]
 
-        KAFKA["Kafka Topic<br/>retail_orders"]
-
-        CONSUMER["kafka_consumer.py<br/>Spark Structured Streaming"]
-
-        STREAM_TABLE[("streaming_orders")]
-
-        PRODUCER --> KAFKA
-        KAFKA --> CONSUMER
-        CONSUMER --> STREAM_TABLE
+        F --> G --> H --> I
 
     end
 
 
-    subgraph Infrastructure["Dockerized Infrastructure"]
+    subgraph Infrastructure
 
-        AIRFLOW["Airflow"]
-        POSTGRES2["PostgreSQL"]
-        ZOOKEEPER["Zookeeper"]
-        KAFKA2["Kafka"]
-        METABASE["Metabase"]
+        J["Airflow"]
+        K["Kafka"]
+        L["Zookeeper"]
+        M["PostgreSQL"]
+        N["Metabase"]
+        O["Docker Compose"]
 
     end
 
 
-    DBT --> POSTGRES2
-    STREAM_TABLE --> POSTGRES2
+    I --> D
+    J --> Batch_ELT_Pipeline
+    O --> Infrastructure
 ```
 
 
