@@ -368,38 +368,6 @@ docker compose exec airflow bash -c "cd /opt/airflow/project/dbt/retail_transfor
 
 ---
 
-# Key Learning Outcomes
-
-Through this project, I gained hands-on experience in designing and implementing end-to-end batch and streaming data engineering workflows using modern data stack technologies.
-
-Key areas of practical experience include:
-
-* Orchestrating ELT pipelines using Apache Airflow
-* Performing distributed data processing with PySpark
-* Building real-time streaming pipelines with Apache Kafka
-* Consuming streaming data using Spark Structured Streaming
-* Loading and managing warehouse tables in PostgreSQL
-* Building transformation and testing workflows using dbt
-* Containerizing multi-service infrastructure using Docker Compose
-* Designing re-runnable and production-style batch pipelines
-* Implementing data quality validation and schema consistency checks
-* Understanding incremental modeling and analytics engineering workflows
-
----
-
-# Tech Stack
-
-* Apache Airflow
-* Apache Spark
-* PySpark
-* Apache Kafka
-* PostgreSQL
-* dbt
-* Docker Compose
-* Python
-
----
-
 # License
 
 MIT License
