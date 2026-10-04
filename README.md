@@ -370,4 +370,4 @@ docker compose exec airflow bash -c "cd /opt/airflow/project/dbt/retail_transfor
 
 # License
 
-MIT License
+MIT License.
